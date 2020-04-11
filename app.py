@@ -63,8 +63,8 @@ class CameraApi(Resource):
         cv2.imwrite(save_path, image)
         aspect_ratio = image.shape[1]/image.shape[0]
         desired_height = 480
-        width = 480 * aspect_ratio
-        rescaled_image = cv2.resize(image,(widht, height))
+        width = int(480 * aspect_ratio)
+        rescaled_image = cv2.resize(image,(width, desired_height))
         save_path = os.path.join(rescaled_path, filename)
         cv2.imwrite(save_path, rescaled_image)
         return save_path
