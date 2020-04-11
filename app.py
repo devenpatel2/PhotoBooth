@@ -44,8 +44,8 @@ class CameraApi(Resource):
         if action == "take_picture":
             image = self._camera.capture()
             self.logger.debug(f"capture image {image.shape}")
-            thumb = self.save_image(image)
-            return send_file(thumb, mimetype='image/jpeg')
+            rescaled = self.save_image(image)
+            return send_file(rescaled, mimetype='image/jpeg')
 
     def get_filename(self):
         current_time = datetime.now().strftime("%Y-%m-%d-%H_%M_%S_%f")
@@ -53,17 +53,20 @@ class CameraApi(Resource):
 
     def save_image(self, image, path="Images"):
         image_path = os.path.join("Images", "images")
-        thumb_path = os.path.join("Images", "thumb")
+        rescaled_path = os.path.join("Images", "rescaled")
         if not os.path.exists(path):
             os.makedirs(image_path)
-            os.makedirs(thumb_path)
+            os.makedirs(rescaled_path)
         current_time = self.get_filename()
         filename = current_time + ".jpg"
         save_path = os.path.join(image_path, filename)
         cv2.imwrite(save_path, image)
-        thumb_image = cv2.resize(image, (0, 0), fx=0.25, fy=0.25)
-        save_path = os.path.join(thumb_path, filename)
-        cv2.imwrite(save_path, thumb_image)
+        aspect_ratio = image.shape[1]/image.shape[0]
+        desired_height = 480
+        width = 480 * aspect_ratio
+        rescaled_image = cv2.resize(image,(widht, height))
+        save_path = os.path.join(rescaled_path, filename)
+        cv2.imwrite(save_path, rescaled_image)
         return save_path
 
 
