@@ -1,3 +1,6 @@
+# This is a WIP. 
+Only clicking of images is currently supported
+
 # Introduction
 This application is created for caputuring photos with a webcam or a digital camera remotely, using a web-browser. For e.g I've connected my Canon DSLR to a raspberry-pi and wanted to click images without disturbing the camera. The server is started on the raspberry pi and now photos can be clicked through a remote machine/phone using a browser. 
 
