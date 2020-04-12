@@ -4,7 +4,7 @@ import logging
 import os
 
 import cv2
-from flask import Flask, send_from_directory, request, send_file
+from flask import Flask, send_from_directory, request, send_file, url_for
 from flask_restx import Api, Resource, reqparse
 from api.camera import DigitalCam, DummyCam, WebCam
 
@@ -26,6 +26,7 @@ class LandingPage(Resource):
         # return {'hello':'world'}
 
 
+@api.route('/camera/<path:image_uri>')
 @api.route('/camera')
 @api.expect(camera_parser)
 class CameraApi(Resource):
@@ -45,27 +46,36 @@ class CameraApi(Resource):
             image = self._camera.capture()
             self.logger.debug(f"capture image {image.shape}")
             rescaled = self.save_image(image)
-            return send_file(rescaled, mimetype='image/jpeg')
+            return url_for('static', filename=rescaled)
+
+    def get(self, image_uri):
+        image_uri = image_uri.split('static/')[-1]
+        return send_file(image_uri, 'image/jpeg')
 
     def get_filename(self):
         current_time = datetime.now().strftime("%Y-%m-%d-%H_%M_%S_%f")
         return current_time
 
     def save_image(self, image, path="Images"):
-        image_path = os.path.join("Images", "images")
-        rescaled_path = os.path.join("Images", "rescaled")
+        image_path = os.path.join(path, "images")
+        rescaled_path = os.path.join(path, "rescaled")
+        static_rescaled = os.path.join("static", "rescaled_path")
         if not os.path.exists(path):
             os.makedirs(image_path)
             os.makedirs(rescaled_path)
+        if not os.path.exists(static_rescaled):
+            os.makedirs(static_rescaled)
+
         current_time = self.get_filename()
         filename = current_time + ".jpg"
         save_path = os.path.join(image_path, filename)
         cv2.imwrite(save_path, image)
-        aspect_ratio = image.shape[1]/image.shape[0]
+        aspect_ratio = image.shape[1] / image.shape[0]
         desired_height = 480
         width = int(480 * aspect_ratio)
-        rescaled_image = cv2.resize(image,(width, desired_height))
+        rescaled_image = cv2.resize(image, (width, desired_height))
         save_path = os.path.join(rescaled_path, filename)
+
         cv2.imwrite(save_path, rescaled_image)
         return save_path
 
@@ -82,6 +92,10 @@ def get_camera(args):
     print(f"Setting camera to {camera_type}")
     camera = camera_lookup[camera_type]()
     return camera
+
+
+def init_static_dirs():
+    pass
 
 
 if __name__ == "__main__":
