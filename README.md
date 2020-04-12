@@ -31,6 +31,8 @@ Please change the line in [PhotoBooth/static/js/navbar_camera.js](https://github
    - USBCam (--usbcam)
    - Dummy (--dummy) 
 ```
-python app.py --digi
+python app.py --webcam
 ```
-Images are stored in **Images/image** and **Images/rescaled** directories. The **image** directory contains the full-size image and the **rescaled** has the resized images. The rescaled images are sent to front end, to for speed, since with DSLR, these images can be as big as *5184x3456* in size. 
+Images are stored in **Images/image** and **Images/rescaled** directories. The **image** directory contains the full-size image and the **rescaled** has the resized images. The rescaled images are sent to front end, to for speed, since with DSLR, these images can be as big as *5184x3456* in size.
+
+Open the url [http://localhost:5000/index.html](http://localhost:5000/index.html) (Or the corresponding IP if running it on a different machine)
