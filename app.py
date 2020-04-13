@@ -1,10 +1,11 @@
 from argparse import ArgumentParser
 from datetime import datetime
+from glob import glob
 import logging
 import os
 
 import cv2
-from flask import Flask, send_from_directory, request, send_file, url_for
+from flask import Flask, send_from_directory, request, send_file, url_for, jsonify
 from flask_restx import Api, Resource, reqparse
 from api.camera import DigitalCam, DummyCam, WebCam
 
@@ -50,6 +51,7 @@ class CameraApi(Resource):
 
     def get(self, image_uri):
         image_uri = image_uri.split('static/')[-1]
+        self.logger.debug(f"sending image {image_uri}")
         return send_file(image_uri, 'image/jpeg')
 
     def get_filename(self):
@@ -59,12 +61,9 @@ class CameraApi(Resource):
     def save_image(self, image, path="Images"):
         image_path = os.path.join(path, "images")
         rescaled_path = os.path.join(path, "rescaled")
-        static_rescaled = os.path.join("static", "rescaled_path")
         if not os.path.exists(path):
             os.makedirs(image_path)
             os.makedirs(rescaled_path)
-        if not os.path.exists(static_rescaled):
-            os.makedirs(static_rescaled)
 
         current_time = self.get_filename()
         filename = current_time + ".jpg"
@@ -79,6 +78,17 @@ class CameraApi(Resource):
         cv2.imwrite(save_path, rescaled_image)
         return save_path
 
+@api.route('/gallery')
+class GalleryApi(Resource):
+
+    def get(self):
+        image_list = self.get_image_list('Images/rescaled')
+        image_uris = [url_for('static', filename=image_name) for image_name in image_list]
+        return jsonify(image_uris)
+
+    def get_image_list(self, image_path):
+       image_list = glob(image_path + "/*.jpg")
+       return sorted(image_list)
 
 def get_camera(args):
     camera_lookup = {'digi': DigitalCam,
