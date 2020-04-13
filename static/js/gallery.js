@@ -7,7 +7,7 @@ $(document).ready(function() {
       .then(response => response.json())
       .then(json => {
 
-        let data = json.slice(-10);
+        let data = json.slice(-50);
         data = data.map(obj => {
             console.log(obj)
             let image_uri = image_api + "/" + obj 
