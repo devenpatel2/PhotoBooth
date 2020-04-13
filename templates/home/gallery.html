@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="../../static/css/cover.css">
-
-    <title>HOme | Photo Booth</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.css">
+    <title>Gallery | Photo Booth</title>
   </head>
   <body>
     
@@ -23,11 +23,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html">Capture Image <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item">
-              <a class="nav-link" href="gallery.html">Gallery</a>
+              <a class="nav-link" href="index.html">Capture Image </a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="gallery.html">Gallery <span class="sr-only">(current)</span></a>
             </li>
           </ul>
         </div>
@@ -39,14 +39,12 @@
       <div class="container py-3">
         <div class="row">
           <div class="col">
-              <button id="img-capture" class="btn btn-primary">Click to Capture Image</button>
+              <div class="galleria">
+            </div>
+
           </div>
         </div>
       </div>
-      <div class='centeredimage'>
-        <img id="image"/>
-      </div> 
-
     </main>
 
     <footer class="bg-dark text-light">
@@ -69,6 +67,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <!-- load custom script -->
-    <script type="text/javascript" src="../../static/js/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/galleria.min.js"></script>
+    <script type="text/javascript" src="../../static/js/gallery.js"></script>
   </body>
 </html>

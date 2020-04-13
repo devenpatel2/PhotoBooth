@@ -1,0 +1,20 @@
+main {
+  margin: 56px 0 0 0;
+  min-height: calc(100vh - 86px)
+}
+
+footer {
+  height: 30px;
+}
+
+.centeredimage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.galleria {
+  width: 960px;
+  height: 480px;
+}
